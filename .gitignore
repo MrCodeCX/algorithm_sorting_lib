@@ -1,0 +1,6 @@
+# Carpeta de compilacion
+build/
+
+# Configuracion local de editores
+.vscode/
+.vs/
