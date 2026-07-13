@@ -1,63 +1,129 @@
 # Algorithm Sorting Library
 
-A small C++ library of sorting algorithms and related helpers, built by hand as
-a learning exercise. Kept here as a legacy project.
+A small header-only C++ library with classic sorting algorithms, binary search,
+and supporting utilities. Requires C++17 or newer.
 
-> Note: identifiers and comments in the source are in Spanish. The project has
-> not been translated.
+## About
 
-## Contents
+This project implements a compact set of algorithms using templates and standard
+C++ containers. It is organized as a reusable header-only library with a CMake
+target and a small test suite.
 
-Everything lives under three namespaces (headers in `include/`):
+The public API is namespaced under `algorithm_sorting`. The main algorithms can
+be included as a full module or individually by header.
 
-### `Sorting`
-- `counting_sort` — for `int` / `long long` vectors (with `max`, or `max` + `min`
-  range), plus template overloads for `vector<pair<key, T>>`.
-- `radix_sort` — for `int` / `long long` vectors.
-- `selection_sort<T>`, `bubble_sort<T>` — in place, on `vector<T>`.
-- `insertion_sort<T>` — on `list<T>`, returns a new sorted list.
-- `quick_sort<T>` — **not implemented** (the body is stubbed out; calling it is
-  currently a no-op).
+## Features
 
-### `Analytics`
-- `binary_search` — returns the index of the first occurrence of a value in a
-  sorted `int` vector.
+- Header-only C++ library requiring C++17 or newer.
+- CMake `INTERFACE` target for easy integration.
+- Stable counting sort for integral vectors.
+- Counting sort by integral key for `std::vector<std::pair<Key, T>>`.
+- Byte-based radix sort for signed and unsigned integral types.
+- Bubble sort and selection sort for `std::vector<T>`.
+- Insertion sort and quick sort for `std::list<T>`.
+- Binary search returning the first matching index.
+- Utility helpers kept separate from the core sorting headers.
+- Tests with CTest.
 
-### `Pointwise`
-Vector utilities used by the sorting routines:
-- `add_Acumulate` — in-place prefix sum.
-- `add_Scalar`, `mul_Scalar` — add/multiply every element by a scalar.
-- `get_cif` — extract the digit at a given power of ten.
-- `show` — print a `vector` or `list`.
+## Using the Library
 
-## Build
+Because the project is header-only, there is no library binary to build or link.
+Include the headers and compile your program with the `include/` directory in
+the include path.
 
-Requires a C++17 compiler (`g++` or `clang++`) and `make`.
+Include the full library:
 
-```bash
-make
+```cpp
+#include "algorithm_sorting/algorithm_sorting.hpp"
 ```
 
-This produces:
-- `build/libsorting.a` — the static library.
-- `build/demo` — a small demo program (from `examples/main.cpp`).
+Or include only the module you need:
 
-Run the demo:
-
-```bash
-./build/demo
+```cpp
+#include "algorithm_sorting/sorting.hpp"
+#include "algorithm_sorting/analytics.hpp"
+#include "algorithm_sorting/utils.hpp"
 ```
 
-`make clean` removes the `build/` directory.
+You can also include a single algorithm:
 
-## Using the library
+```cpp
+#include "algorithm_sorting/sorting/radix_sort.hpp"
+```
 
-Include the headers and link against the static library:
+Example:
+
+```cpp
+#include "algorithm_sorting/sorting/radix_sort.hpp"
+
+#include <vector>
+
+int main() {
+	std::vector<int> values = { 5, -1, 3, 0 };
+	auto sorted = algorithm_sorting::radix_sort(values);
+}
+```
+
+Compile directly:
 
 ```bash
-g++ -std=c++17 -Iinclude your_program.cpp -Lbuild -lsorting -o your_program
+g++ -std=c++17 -Iinclude your_program.cpp -o your_program
 ```
+
+## Running Tests
+
+Configure, build, and run the tests:
+
+```bash
+cmake -S . -B build-cmake
+cmake --build build-cmake
+ctest --test-dir build-cmake
+```
+
+CMake is only needed for building and running this repository's test suite. It
+exposes the `algorithm_sorting` interface target for CMake-based consumers.
+
+## Project Structure
+
+```text
+.
+|-- CMakeLists.txt
+|-- include
+|   `-- algorithm_sorting
+|       |-- algorithm_sorting.hpp
+|       |-- analytics.hpp
+|       |-- sorting.hpp
+|       |-- utils.hpp
+|       |-- analytics
+|       |   `-- binary_search.hpp
+|       |-- detail
+|       |   `-- sorting.hpp
+|       |-- sorting
+|       |   |-- bubble_sort.hpp
+|       |   |-- counting_sort.hpp
+|       |   |-- insertion_sort.hpp
+|       |   |-- quick_sort.hpp
+|       |   |-- radix_sort.hpp
+|       |   `-- selection_sort.hpp
+|       `-- utils
+|           |-- io.hpp
+|           `-- pointwise.hpp
+|-- tests
+|   `-- test.cpp
+|-- README.md
+`-- LICENSE
+```
+
+## Technical Notes
+
+Most functions are templates, so their implementations live in headers. The
+`detail` directory contains implementation helpers that are not intended as
+public API.
+
+`utils/io.hpp` is separate from the algorithm headers so environments that do
+not need stream output, such as a future WebAssembly demo, can avoid including
+I/O-related code.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+MIT License. See [LICENSE](LICENSE).

@@ -1,6 +1,7 @@
-# Carpeta de compilacion
+# Build output
 build/
+build-cmake/
 
-# Configuracion local de editores
+# Local editor settings
 .vscode/
 .vs/
