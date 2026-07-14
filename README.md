@@ -5,6 +5,8 @@ and supporting utilities. Requires C++17 or newer.
 
 **Live demo:** [mrcodecx.github.io/algorithm_sorting_lib](https://mrcodecx.github.io/algorithm_sorting_lib/)
 
+![Algorithm Sorting Library web demo](docs/screenshots/web-demo.png)
+
 ## About
 
 This project implements a compact set of algorithms using templates and standard
