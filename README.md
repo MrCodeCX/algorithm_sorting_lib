@@ -120,7 +120,7 @@ bash site/src/build-wasm.sh
 The script writes:
 
 ```text
-site/wasm/sorting.js
+site/src/sorting.js
 ```
 
 The generated file is committed so GitHub Pages can publish the static site
@@ -167,12 +167,12 @@ static site folder.
 |   `-- test.cpp
 |-- site
 |   |-- app.js
+|   |-- favicon.svg
 |   |-- index.html
 |   |-- style.css
-|   |-- wasm
-|   |   `-- sorting.js
 |   `-- src
 |       |-- build-wasm.sh
+|       |-- sorting.js
 |       `-- sorting_wasm.cpp
 |-- README.md
 `-- LICENSE

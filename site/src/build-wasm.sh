@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-OUTPUT_DIR="$ROOT_DIR/site/wasm"
+OUTPUT_DIR="$ROOT_DIR/site/src"
 
 mkdir -p "$OUTPUT_DIR"
 
