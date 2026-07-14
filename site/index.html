@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Algorithm Sorting Library</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header class="hero">
+		<nav class="nav" aria-label="Project links">
+			<a href="https://github.com/MrCodeCX/algorithm_sorting_lib#readme" rel="noreferrer">README</a>
+			<a href="https://github.com/MrCodeCX/algorithm_sorting_lib" rel="noreferrer">GitHub</a>
+		</nav>
+		<div class="hero__content">
+			<p class="eyebrow">C++ header-only library compiled to WebAssembly</p>
+			<h1>Algorithm Sorting Library</h1>
+			<p class="hero__copy">A compact C++ sorting library presented as an interactive browser demo. The visualization runs the library code through WebAssembly and replays the trace events emitted by each algorithm.</p>
+		</div>
+	</header>
+
+	<main>
+		<section class="workspace" aria-label="Sorting visualization">
+			<div class="panel panel--controls">
+				<div>
+					<p class="section-kicker">Visualizer</p>
+					<h2>Run the C++ algorithms</h2>
+				</div>
+
+				<div class="control-group">
+					<label for="algorithm">Algorithm</label>
+					<select id="algorithm">
+						<option value="0">Bubble sort</option>
+						<option value="1">Selection sort</option>
+						<option value="2">Insertion sort</option>
+						<option value="3">Quick sort</option>
+						<option value="4">Counting sort</option>
+						<option value="5">Radix sort</option>
+					</select>
+				</div>
+
+				<div class="control-group">
+					<label for="values">Input values</label>
+					<textarea id="values" rows="3">42, 7, 19, 3, 28, 15, 34, 11, 23, 5, 31, 17</textarea>
+				</div>
+
+				<div class="button-row">
+					<button id="run" class="button button--primary" type="button">Run</button>
+					<button id="shuffle" class="button" type="button">Shuffle</button>
+				</div>
+
+				<div class="control-group">
+					<label for="speed">Speed</label>
+					<input id="speed" type="range" min="1" max="10" value="7">
+				</div>
+			</div>
+
+			<div class="panel panel--visualizer">
+				<div class="visualizer-header">
+					<div>
+						<p id="status" class="status">Loading WebAssembly...</p>
+						<h2 id="activeAlgorithm">Bubble sort</h2>
+					</div>
+					<div class="step-counter">
+						<span id="progressCurrent">0</span>
+						<span>/</span>
+						<span id="progressTotal">0</span>
+					</div>
+				</div>
+
+				<div id="bars" class="bars" aria-label="Array state"></div>
+
+				<div class="metrics" aria-label="Trace metrics">
+					<div>
+						<span id="comparisons">0</span>
+						<p>comparisons</p>
+					</div>
+					<div>
+						<span id="swaps">0</span>
+						<p>swaps</p>
+					</div>
+					<div>
+						<span id="writes">0</span>
+						<p>writes</p>
+					</div>
+					<div>
+						<span id="finalSize">0</span>
+						<p>values</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="info-grid">
+			<article>
+				<p class="section-kicker">About</p>
+				<h2>What this project demonstrates</h2>
+				<p>The library exposes reusable C++ sorting algorithms, optional tracing, and small utility headers. This page compiles the C++ code to WebAssembly so the browser visualization is driven by the same implementation used by the library.</p>
+			</article>
+			<article>
+				<p class="section-kicker">Algorithms</p>
+				<h2>Available implementations</h2>
+				<ul class="tag-list">
+					<li>Bubble sort</li>
+					<li>Selection sort</li>
+					<li>Insertion sort</li>
+					<li>Quick sort</li>
+					<li>Counting sort</li>
+					<li>Radix sort</li>
+				</ul>
+			</article>
+			<article>
+				<p class="section-kicker">Architecture</p>
+				<h2>Library shape</h2>
+				<p>The project is organized as a header-only C++ library with focused public headers, a CMake test target, and a thin WebAssembly adapter for portfolio presentation.</p>
+			</article>
+		</section>
+
+		<section class="trace-panel">
+			<div>
+				<p class="section-kicker">Trace</p>
+				<h2>Current event</h2>
+			</div>
+			<pre id="eventOutput">Waiting for WebAssembly...</pre>
+		</section>
+	</main>
+
+	<script src="wasm/sorting.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>

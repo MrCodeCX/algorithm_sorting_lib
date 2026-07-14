@@ -1,31 +1,33 @@
 #pragma once
 
 #include <functional>
+#include <optional>
+#include <cstddef>
 #include <vector>
 
 namespace algorithm_sorting {
 
 template<typename T, typename Compare = std::less<T>>
-int binary_search_first(const std::vector<T>& values, const T& target, Compare compare = Compare{}) {
+std::optional<std::size_t> binary_search_first(const std::vector<T>& values, const T& target, Compare compare = Compare{}) {
 	if (values.empty()) {
-		return -1;
+		return std::nullopt;
 	}
 
-	int start = 0;
-	int end = static_cast<int>(values.size()) - 1;
-	int result = -1;
+	std::size_t start = 0;
+	std::size_t end = values.size();
+	std::optional<std::size_t> result;
 
-	while (start <= end) {
-		int middle = start + (end - start) / 2;
+	while (start < end) {
+		std::size_t middle = start + (end - start) / 2;
 		if (compare(values[middle], target)) {
 			start = middle + 1;
 		}
 		else if (compare(target, values[middle])) {
-			end = middle - 1;
+			end = middle;
 		}
 		else {
 			result = middle;
-			end = middle - 1;
+			end = middle;
 		}
 	}
 

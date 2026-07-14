@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cmath>
 #include <cstddef>
 #include <vector>
 
@@ -29,7 +28,10 @@ void multiply_scalar(std::vector<T>& values, T scalar) {
 
 template<typename Integer>
 Integer digit_at(Integer value, int power_of_ten) {
-	Integer divisor = static_cast<Integer>(std::pow(10, power_of_ten));
+	Integer divisor = 1;
+	for (int i = 0; i < power_of_ten; ++i) {
+		divisor *= 10;
+	}
 	return (value / divisor) % 10;
 }
 
