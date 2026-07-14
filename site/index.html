@@ -4,124 +4,111 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Algorithm Sorting Library</title>
+	<link rel="icon" href="favicon.svg" type="image/svg+xml">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<header class="hero">
-		<nav class="nav" aria-label="Project links">
-			<a href="https://github.com/MrCodeCX/algorithm_sorting_lib#readme" rel="noreferrer">README</a>
-			<a href="https://github.com/MrCodeCX/algorithm_sorting_lib" rel="noreferrer">GitHub</a>
-		</nav>
-		<div class="hero__content">
-			<p class="eyebrow">C++ header-only library compiled to WebAssembly</p>
-			<h1>Algorithm Sorting Library</h1>
-			<p class="hero__copy">A compact C++ sorting library presented as an interactive browser demo. The visualization runs the library code through WebAssembly and replays the trace events emitted by each algorithm.</p>
-		</div>
-	</header>
+	<main class="page">
+		<header class="hero">
+			<div class="hero-copy">
+				<p class="kicker">C++17 header-only library / WebAssembly demo</p>
+				<h1>Algorithm Sorting Library</h1>
+				<p>A compact sorting library with optional trace events for visualizers, debugging, and teaching how classic algorithms move through data.</p>
+			</div>
+			<div class="hero-actions" aria-label="Project actions">
+				<a class="button button-dark" href="https://github.com/MrCodeCX/algorithm_sorting_lib" rel="noreferrer">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.38c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.1-.75.08-.74.08-.74 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.84 1.32 3.53 1.01.11-.78.42-1.32.77-1.62-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.78c1.02 0 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.82 1.1.82 2.23v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+					GitHub
+				</a>
+				<a class="button" href="https://github.com/MrCodeCX/algorithm_sorting_lib/archive/refs/heads/main.zip" rel="noreferrer">Download library</a>
+			</div>
+		</header>
 
-	<main>
-		<section class="workspace" aria-label="Sorting visualization">
-			<div class="panel panel--controls">
+		<section class="demo-card" aria-label="Sorting visualization">
+			<div class="demo-toolbar">
 				<div>
-					<p class="section-kicker">Visualizer</p>
-					<h2>Run the C++ algorithms</h2>
+					<p id="status" class="status">Loading WebAssembly...</p>
+					<h2 id="activeAlgorithm">Bubble sort</h2>
 				</div>
-
-				<div class="control-group">
-					<label for="algorithm">Algorithm</label>
-					<select id="algorithm">
-						<option value="0">Bubble sort</option>
-						<option value="1">Selection sort</option>
-						<option value="2">Insertion sort</option>
-						<option value="3">Quick sort</option>
-						<option value="4">Counting sort</option>
-						<option value="5">Radix sort</option>
-					</select>
-				</div>
-
-				<div class="control-group">
-					<label for="values">Input values</label>
-					<textarea id="values" rows="3">42, 7, 19, 3, 28, 15, 34, 11, 23, 5, 31, 17</textarea>
-				</div>
-
-				<div class="button-row">
-					<button id="run" class="button button--primary" type="button">Run</button>
-					<button id="shuffle" class="button" type="button">Shuffle</button>
-				</div>
-
-				<div class="control-group">
-					<label for="speed">Speed</label>
-					<input id="speed" type="range" min="1" max="10" value="7">
+				<div class="progress-pill" aria-label="Animation progress">
+					<span id="progressCurrent">0</span>
+					<span>/</span>
+					<span id="progressTotal">0</span>
 				</div>
 			</div>
 
-			<div class="panel panel--visualizer">
-				<div class="visualizer-header">
-					<div>
-						<p id="status" class="status">Loading WebAssembly...</p>
-						<h2 id="activeAlgorithm">Bubble sort</h2>
-					</div>
-					<div class="step-counter">
-						<span id="progressCurrent">0</span>
-						<span>/</span>
-						<span id="progressTotal">0</span>
+			<div class="demo-layout">
+				<div class="visual-panel">
+					<div id="bars" class="bars" aria-label="Array state"></div>
+					<div class="metrics" aria-label="Trace metrics">
+						<div><strong id="comparisons">0</strong><span>comparisons</span></div>
+						<div><strong id="swaps">0</strong><span>swaps</span></div>
+						<div><strong id="writes">0</strong><span>writes</span></div>
+						<div><strong id="finalSize">0</strong><span>values</span></div>
 					</div>
 				</div>
 
-				<div id="bars" class="bars" aria-label="Array state"></div>
-
-				<div class="metrics" aria-label="Trace metrics">
-					<div>
-						<span id="comparisons">0</span>
-						<p>comparisons</p>
+				<aside class="controls">
+					<label class="field">
+						<span>Algorithm</span>
+						<select id="algorithm">
+							<option value="0">Bubble sort</option>
+							<option value="1">Selection sort</option>
+							<option value="2">Insertion sort</option>
+							<option value="3">Quick sort</option>
+							<option value="4">Counting sort</option>
+							<option value="5">Radix sort</option>
+						</select>
+					</label>
+					<label class="field">
+						<span>Input</span>
+						<textarea id="values" rows="3">42, 7, 19, 3, 28, 15, 34, 11, 23, 5, 31, 17</textarea>
+					</label>
+					<label class="field">
+						<span>Speed</span>
+						<input id="speed" type="range" min="1" max="10" value="7">
+					</label>
+					<div class="actions">
+						<button id="run" class="button button-primary" type="button">Run</button>
+						<button id="shuffle" class="button" type="button">Shuffle</button>
 					</div>
-					<div>
-						<span id="swaps">0</span>
-						<p>swaps</p>
+					<div class="output-box">
+						<span>Sorted output</span>
+						<output id="outputValues">Run the algorithm to generate output</output>
 					</div>
-					<div>
-						<span id="writes">0</span>
-						<p>writes</p>
+					<div class="output-box output-box-dark">
+						<span>Trace event</span>
+						<pre id="eventOutput">Waiting for WebAssembly...</pre>
 					</div>
-					<div>
-						<span id="finalSize">0</span>
-						<p>values</p>
-					</div>
-				</div>
+				</aside>
 			</div>
 		</section>
 
-		<section class="info-grid">
-			<article>
-				<p class="section-kicker">About</p>
-				<h2>What this project demonstrates</h2>
-				<p>The library exposes reusable C++ sorting algorithms, optional tracing, and small utility headers. This page compiles the C++ code to WebAssembly so the browser visualization is driven by the same implementation used by the library.</p>
+		<section class="info-grid" aria-label="Library information">
+			<article class="info-card use-card">
+				<p class="kicker">Use the library</p>
+				<h2>Header-only, small, and easy to include.</h2>
+				<pre><code>#include "algorithm_sorting/sorting.hpp"
+
+std::vector&lt;int&gt; values { 5, 1, 4, 2 };
+auto sorted = algorithm_sorting::quick_sort(values);</code></pre>
 			</article>
-			<article>
-				<p class="section-kicker">Algorithms</p>
-				<h2>Available implementations</h2>
-				<ul class="tag-list">
-					<li>Bubble sort</li>
-					<li>Selection sort</li>
-					<li>Insertion sort</li>
-					<li>Quick sort</li>
-					<li>Counting sort</li>
-					<li>Radix sort</li>
+
+			<article class="info-card">
+				<p class="kicker">Tracing</p>
+				<h2>Built for visual output.</h2>
+				<p>Sorting functions can receive a typed trace object. When tracing is enabled, algorithms emit compare, swap, write, and done events without duplicating the algorithm logic for the web demo.</p>
+			</article>
+
+			<article class="info-card algorithms-card">
+				<p class="kicker">Algorithms</p>
+				<h2>Classic comparison and integer sorts.</h2>
+				<ul>
+					<li><strong>Bubble, selection, insertion:</strong> simple step-by-step educational sorts.</li>
+					<li><strong>Quick sort:</strong> partition-based comparison sort.</li>
+					<li><strong>Counting, radix:</strong> integer-focused non-comparison sorts.</li>
 				</ul>
 			</article>
-			<article>
-				<p class="section-kicker">Architecture</p>
-				<h2>Library shape</h2>
-				<p>The project is organized as a header-only C++ library with focused public headers, a CMake test target, and a thin WebAssembly adapter for portfolio presentation.</p>
-			</article>
-		</section>
-
-		<section class="trace-panel">
-			<div>
-				<p class="section-kicker">Trace</p>
-				<h2>Current event</h2>
-			</div>
-			<pre id="eventOutput">Waiting for WebAssembly...</pre>
 		</section>
 	</main>
 

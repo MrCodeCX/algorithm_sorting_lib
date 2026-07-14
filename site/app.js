@@ -13,6 +13,7 @@ const swapsElement = document.getElementById("swaps");
 const writesElement = document.getElementById("writes");
 const finalSizeElement = document.getElementById("finalSize");
 const eventOutput = document.getElementById("eventOutput");
+const outputValuesElement = document.getElementById("outputValues");
 
 let sortingModulePromise = null;
 let currentResult = null;
@@ -148,24 +149,46 @@ function countEvents(type) {
 	return currentResult.events.filter((event) => event.type === type).length;
 }
 
+function formatValues(values) {
+	return values.join(", ");
+}
+
+function formatEvent(event) {
+	if (!event) {
+		return "Initial array loaded. Press Run to execute the selected C++ algorithm.";
+	}
+
+	if (event.type === "compare") {
+		return `compare indexes ${event.first} and ${event.second}`;
+	}
+
+	if (event.type === "swap") {
+		return `swap indexes ${event.first} and ${event.second}`;
+	}
+
+	if (event.type === "write") {
+		return `write value ${event.value} at index ${event.first}`;
+	}
+
+	if (event.type === "done") {
+		return "sorting completed";
+	}
+
+	return event.type;
+}
+
 function renderEvent(event) {
 	if (!currentResult) {
-		eventOutput.textContent = JSON.stringify({
-			type: "ready",
-			state: parseValues(valuesInput.value)
-		}, null, 2);
+		eventOutput.textContent = "Ready. Choose an algorithm and press Run.";
 		return;
 	}
 
 	if (!event) {
-		eventOutput.textContent = JSON.stringify({
-			type: "input",
-			state: currentResult.input
-		}, null, 2);
+		eventOutput.textContent = `input: ${formatValues(currentResult.input)}`;
 		return;
 	}
 
-	eventOutput.textContent = JSON.stringify(event, null, 2);
+	eventOutput.textContent = formatEvent(event);
 }
 
 function render() {
@@ -179,6 +202,7 @@ function render() {
 	swapsElement.textContent = String(countEvents("swap"));
 	writesElement.textContent = String(countEvents("write"));
 	finalSizeElement.textContent = String(frame.state.length);
+	outputValuesElement.textContent = currentResult ? formatValues(currentResult.sorted) : "Run the algorithm to generate output";
 	renderBars(frame.state, frame.event);
 	renderEvent(frame.event);
 }
