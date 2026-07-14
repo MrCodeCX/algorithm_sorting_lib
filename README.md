@@ -3,7 +3,7 @@
 A small header-only C++ library with classic sorting algorithms, binary search,
 and supporting utilities. Requires C++17 or newer.
 
-**Live demo:** [mrcodecx.github.io/blocks_game_js](https://mrcodecx.github.io/algorithm_sorting_lib/)
+**Live demo:** [mrcodecx.github.io/algorithm_sorting_lib](https://mrcodecx.github.io/algorithm_sorting_lib/)
 
 ## About
 
