@@ -50,6 +50,8 @@ a {
 
 .page {
 	min-height: 100vh;
+	display: grid;
+	align-items: center;
 	padding: clamp(14px, 2vw, 24px);
 }
 
